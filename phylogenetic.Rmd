@@ -1,0 +1,153 @@
+---
+title: "Sergestidae shrimp single-gene alignment"
+author: "Yilin Bai"
+date: "2023-08-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
+```
+
+## Choose a dataset
+
+The data set I chose contains Sergestidae shrimp family single- and multi-gene alignments and tree files.
+
+## Describe it with a reference
+
+Deep-sea shrimp belonging to the family Sergestidae provide a unique system for studying the evolution of bioluminescence.  Most species within the family possess autogenic bioluminescent photophores in one of three distinct forms: lensed photophores, non-lensed photophores, or internal organs of Pesta.  This morphological diversity across Sergestidae has resulted in recent major taxonomic revisions, dividing the two major genera (Sergia and Sergestes) into 15.  Here, we capitalize on molecular data to construct an updated genus-level phylogeny of sergestid shrimp.  DNA was successfully extracted from approximately 87 individuals belonging to 13 of the 15 newly proposed genera.  We implemented a “genome skimming” approach, allowing us to capture mitochondrial genomic data across 19 Sergestidae species.  Additional individuals have been incorporated into the phylogeny through Sanger sequencing of both nuclear (H3, NAK) and mitochondrial (16S and COI) genes.  The resulting molecular phylogeny is compared with previous morphological trees with specific attention to genus-level relationships.  The -sergestes group was rendered non-monophyletic, and the -sergia group was recovered as monophyletic.  Ancestral state reconstructions of light organ type indicate the organs of Pesta is the ancestral state for the family. Non-lensed photophores evolved once across the -sergia group, but were later lost in the deepest living genus, Sergia.  Lensed photophores also evolved once within the genera Prehensilosergia, Lucensosersgia, and Challengerosergia.  The findings identify preliminary patterns across light organ type and species’ depth distributions, however future research that incorporates finer-scale depth data and more species is needed to confirm our findings. 
+
+
+## Choose a gene
+
+
+```{r}
+library(seqinr)
+fasta_data <- read.fasta("nad1alignment.fasta")
+```
+
+
+## Run IQ-TREE 
+```{r}
+
+# Command of run one class model iq-tree
+ iqtree_one_model_command <- '% /Users/lindsaybai/Desktop/BIOL8706/iqtree-2.2.2.7.modelmix-MacOSX/bin/iqtree2 -s /Users/lindsaybai/Desktop/BIOL8706/one_gene/nad1alignment.fasta   -B 1000 -T AUTO'
+
+# Command of run mixture class model iq-tree
+iqtree_mixture_command <- '/Users/lindsaybai/Desktop/BIOL8706/iqtree-2.2.2.7.modelmix-MacOSX/bin/iqtree2  -s /Users/lindsaybai/Desktop/BIOL8706/one_gene_mixture/nad1alignment.fasta   -m "ESTMIXNUM" -mrate E,I,G,I+G,R,I+R -opt_qmix_criteria 1'
+
+
+system(iqtree_one_model_command)
+system(iqtree_mixture_command)
+```
+
+
+## Compare the output
+### Read trees from files
+```{r}
+library(ape)
+tree1 <- read.tree("nad1alignment_onemodle.fasta.treefile")
+tree2 <- read.tree("nad1alignment_mixture.fasta.treefile")
+
+```
+
+### Read the IQ-TREE file
+```{r}
+log_contents_onegene <- readLines("nad1alignment_onegene.fasta.log")
+log_contents_mixture <- readLines("nad1alignment_mixture.fasta.log")
+```
+
+
+### Extract best-fit model(one-class & mixture class)
+
+```{r}
+best_model_line_1 <- grep("Best-fit model:", log_contents_onegene, value = TRUE)
+best_model_line_2 <- grep("^  Best-fit Q-Mixture model:", log_contents_mixture, value = TRUE)
+tree1_best_model <- sub("Best-fit model: ([^\\s]+)\\s.*", "\\1", best_model_line_1)
+tree2_best_model <- sub("^  Best-fit Q-Mixture model: (.*)", "\\1", best_model_line_2)
+```
+
+
+### Exact best-fit model parameters(one-class & mixture class)
+
+```{r}
+# Find indices of lines starting with 'Rate parameters'
+rate_params_indices_1 <- grep("^Rate parameters:", log_contents_onegene)
+rate_params_indices_2 <- grep("^Rate parameters:", log_contents_mixture)
+
+# Extract the last line with rate parameters
+last_rate_params_line_1 <- log_contents_onegene[rate_params_indices_1[length(rate_params_indices_1)]]
+last_rate_params_line_2 <- log_contents_onegene[rate_params_indices_2[length(rate_params_indices_2)]]
+```
+
+### Exact best-fit model BIC score(one-class & mixture class)
+
+```{r warning=FALSE}
+# Escape special characters in the best model name
+escaped_best_model <- gsub("([.+])", "\\\\\\1", tree1_best_model)
+
+# Search for the line containing the best model
+bic_line <- grep(escaped_best_model, log_contents_onegene, value = TRUE)
+
+# Extract BIC score from the bic_line
+bic_score <- na.omit(as.numeric(sub(".*\\s(\\d+\\.\\d+)\\s*$", "\\1", bic_line)))
+```
+
+
+### Display extracted information
+
+```{r}
+cat("Best one class model:", tree1_best_model, "\n")
+cat("Best mixture model:", tree2_best_model, "\n")
+
+cat("One class model", last_rate_params_line_1, "\n")
+cat("Mixture model", last_rate_params_line_2, "\n")
+
+cat("One class model BIC score:", bic_score, "\n")
+
+```
+
+
+### Compare tree topologies
+
+```{r}
+library(ape)
+topology_equal <- identical(tree1$edge, tree2$edge)
+cat("Tree topologies are equal:", topology_equal, "\n")
+topology_distance <- dist.topo(tree1, tree2)
+topology_distance
+```
+
+
+### Compare branch lengths
+
+```{r}
+branch_lengths_equal <- all.equal.phylo(tree1, tree2)
+cat("Branch lengths are equal:", is.null(branch_lengths_equal), "\n")
+```
+
+
+```{r}
+
+library(phangorn)
+# Calculate the Robinson-Foulds distance
+rf_distance <- treedist(tree1, tree2)
+
+# Display the RF distance
+cat("Robinson-Foulds distance:", rf_distance, "\n")
+```
+
+### Visual Comparison:
+
+#### Plot trees side by side 
+```{r}
+par(mfrow = c(1, 2))  # Set the plotting layout to 1 row and 2 columns
+plot(tree1, main = "Tree 1")  # Plot the first tree
+plot(tree2, main = "Tree 2")  # Plot the second tree
+```
+
+
+#### Create the cophylogeny plot
+```{r}
+cophyloplot(tree1, tree2)
+```
