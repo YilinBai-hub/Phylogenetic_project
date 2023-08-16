@@ -9,13 +9,43 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
 ```
 
-## Choose a dataset
+## Paper and dataset
 
 The data set I chose contains Sergestidae shrimp family single- and multi-gene alignments and tree files.
 
-## Describe it with a reference
 
-Deep-sea shrimp belonging to the family Sergestidae provide a unique system for studying the evolution of bioluminescence.  Most species within the family possess autogenic bioluminescent photophores in one of three distinct forms: lensed photophores, non-lensed photophores, or internal organs of Pesta.  This morphological diversity across Sergestidae has resulted in recent major taxonomic revisions, dividing the two major genera (Sergia and Sergestes) into 15.  Here, we capitalize on molecular data to construct an updated genus-level phylogeny of sergestid shrimp.  DNA was successfully extracted from approximately 87 individuals belonging to 13 of the 15 newly proposed genera.  We implemented a “genome skimming” approach, allowing us to capture mitochondrial genomic data across 19 Sergestidae species.  Additional individuals have been incorporated into the phylogeny through Sanger sequencing of both nuclear (H3, NAK) and mitochondrial (16S and COI) genes.  The resulting molecular phylogeny is compared with previous morphological trees with specific attention to genus-level relationships.  The -sergestes group was rendered non-monophyletic, and the -sergia group was recovered as monophyletic.  Ancestral state reconstructions of light organ type indicate the organs of Pesta is the ancestral state for the family. Non-lensed photophores evolved once across the -sergia group, but were later lost in the deepest living genus, Sergia.  Lensed photophores also evolved once within the genera Prehensilosergia, Lucensosersgia, and Challengerosergia.  The findings identify preliminary patterns across light organ type and species’ depth distributions, however future research that incorporates finer-scale depth data and more species is needed to confirm our findings. 
+### **1. Paper Reference:**
+
+Golightly, C., DeLeo, D. M., Perez, N., Chan, T.-Y., Landeira, J. M., & Bracken‐Grissom, H. D. (2022). Tracing the evolution of bioluminescent light organs across the deep-sea shrimp family Sergestidae using a genomic skimming and phylogenetic approach. Invertebrate Systematics, 36(1), 22-35. https://doi.org/10.1071/IS21013
+
+
+### 2. **Dataset Reference:**
+
+Golightly, Charles; Bracken-Grissom, Heather (2022), Sergestidae shrimp family single- and multi-gene alignments and tree files, Dryad, Dataset, https://doi.org/10.5061/dryad.vdncjsxvk
+
+## Dataset discription
+
+The provided information describes a comprehensive database centered around the investigation of the evolution of bioluminescence in deep-sea shrimp of the Sergestidae family. The database encompasses various aspects of the research, including its focus, methods, and approaches. Here's a more detailed overview of the database itself:
+
+
+**Data Collection and Sample Acquisition:**
+The database provides insights into the collection process of the specimens. The deep-sea shrimp are collected through mid-water trawls in specific geographic regions, notably the Gulf of Mexico and Florida Straits. This data collection process involves capturing live organisms from their natural habitats, ensuring that the samples represent the biological diversity of the family Sergestidae.
+
+**Targeted Genes and Techniques:**
+The genetic investigation involves the amplification and sequencing of specific genes. The targeted genes include H3, NaK, COI, and 16S. These genes are of particular interest due to their relevance to the study's focus on bioluminescence evolution. PCR protocols are employed to amplify these genes for sequencing, and Sanger sequencing techniques are used for their analysis.
+
+**Advanced Techniques - Genome Skimming:**
+The database introduces an advanced technique known as "genome skimming." This approach involves the fragmentation of extracted genomic DNA and the subsequent preparation of libraries using NEB Next Ultra II Library Prep kits. High-throughput sequencing using Illumina HiSeq 3000/4000 technology is employed to capture mitochondrial genomic data from the sampled individuals.
+
+**Bioinformatics and Analysis:**
+The database explains the subsequent bioinformatics steps involved in the analysis of the generated genetic data. Tools such as NOVOplasty are utilized for the assembly of complete mitochondrial genomes. Annotation of these genomes is performed using the MITOS online web tool. Bioinformatics software, notably Geneious Prime, plays a pivotal role in handling, cleaning, and organizing the raw sequence data for further analysis.
+
+**Phylogenetic Analysis and Ancestral State Reconstruction:**
+The core analytical components of the study involve constructing phylogenetic trees using the generated genetic data. The database provides insights into the methodologies employed for alignment creation using MAFFT and tree construction using IQTREE and MrBayes. Additionally, ancestral state reconstruction techniques are used to infer the ancestral states of bioluminescent traits in different lineages.
+
+
+## Visualization of alignment 
+
 
 
 ## Choose a gene
@@ -151,3 +181,6 @@ plot(tree2, main = "Tree 2")  # Plot the second tree
 ```{r}
 cophyloplot(tree1, tree2)
 ```
+
+
+### Conclusion
