@@ -1,0 +1,143 @@
+IQ-TREE 2.2.2.7.modelmix COVID-edition built Jul 13 2023
+
+Input file name: /Users/lindsaybai/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/EOG09150A0E_extraction.fna
+Type of analysis: tree reconstruction
+Random seed number: 977615
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Bui Quang Minh, Heiko A. Schmidt, Olga Chernomor, Dominik Schrempf,
+Michael D. Woodhams, Arndt von Haeseler, and Robert Lanfear (2020)
+IQ-TREE 2: New models and efficient methods for phylogenetic inference
+in the genomic era. Mol. Biol. Evol., in press.
+https://doi.org/10.1093/molbev/msaa015
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 20 sequences with 1957 nucleotide sites
+Number of constant sites: 1419 (= 72.5089% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 1419 (= 72.5089% of all sites)
+Number of parsimony informative sites: 274
+Number of distinct site patterns: 496
+
+ModelFinder
+-----------
+
+Best-fit model according to BIC: MIX{TN+FO,TIMe+FO,JC+FO}+G
+
+List of models sorted by BIC scores: 
+
+Model                  LogL         AIC      w-AIC        AICc     w-AICc         BIC      w-BIC
+MIX{TN+FO,TIMe+FO,JC+FO}+G   -6482.768   13061.536 +    0.364   13064.002 +    0.391   13329.336 +    0.959
+MIX{TN+FO,TIMe+FO,JC+FO}+I+G   -6482.167   13062.334 +    0.244   13064.903 +    0.249   13335.713 -   0.0396
+MIX{TN+FO,TIMe+FO,JC+FO}+I+R2   -6481.918   13063.835 +    0.115   13066.511 +    0.111   13342.794 -  0.00115
+MIX{TN+FO,TIMe+FO,JC+FO}+R3   -6480.316   13062.632 +     0.21   13065.416 +    0.193   13347.169 - 0.000129
+MIX{TN+FO,TIMe+FO,JC+FO}+R2   -6489.815   13077.629 - 0.000116   13080.199 - 0.000119   13351.009 - 1.89e-05
+MIX{TN+FO,TIMe+FO,JC+FO}+I+R3   -6481.194   13066.389 -   0.0321   13069.284 -   0.0279   13356.506 - 1.21e-06
+MIX{TN+FO,TIMe+FO,JC+FO}+R4   -6480.124   13066.249 -   0.0345   13069.257 -   0.0282   13361.945 - 7.96e-08
+MIX{TN+FO,TIMe+FO,JC+FO}+I   -6516.741   13129.482 -  6.4e-16   13131.948 - 6.88e-16   13397.283 - 1.69e-15
+MIX{TN+FO,TIMe+FO,JC+FO}   -6571.724   13237.449 -  2.3e-39   13239.812 -  2.6e-39   13499.670 - 9.87e-38
+
+AIC, w-AIC   : Akaike information criterion scores and weights.
+AICc, w-AICc : Corrected AIC scores and weights.
+BIC, w-BIC   : Bayesian information criterion scores and weights.
+
+Plus signs denote the 95% confidence sets.
+Minus signs denote significant exclusion.
+
+SUBSTITUTION PROCESS
+--------------------
+
+Mixture model of substitution: MIX{TN+FO,TIMe,JC}+G4
+
+  No  Component      Rate    Weight   Parameters
+   1  TN            1.0000   0.6543   TN{1.26148,7.65516}+FO{0.213432,0.316865,0.288216,0.181487}
+   2  TIMe          1.0000   0.1987   TIMe{3.16609,0.0001,0.261684}+FQ
+   3  JC            1.0000   0.1470   JC
+
+Model of rate heterogeneity: Gamma with 4 categories
+Gamma shape alpha: 0.6667
+
+ Category  Relative_rate  Proportion
+  1         0.0671         0.2500
+  2         0.3474         0.2500
+  3         0.9119         0.2500
+  4         2.6736         0.2500
+Relative rates are computed as MEAN of the portion of the Gamma distribution falling in the category.
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -6479.4223 (s.e. 233.8448)
+Unconstrained log-likelihood (without tree): -6300.3727
+Number of free parameters (#branches + #model parameters): 48
+Akaike information criterion (AIC) score: 13054.8446
+Corrected Akaike information criterion (AICc) score: 13057.3100
+Bayesian information criterion (BIC) score: 13322.6447
+
+Total tree length (sum of branch lengths): 3.1814
+Sum of internal branch lengths: 0.5123 (16.1024% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Anopheles_gambiae' is drawn at root
+
++-----------------------------------------------------------Anopheles_gambiae
+|
++--D_acanthoptera
+|
+|                       +--D_affinis
+|                    +--|
+|                    |  +--D_athabasca
+|                 +--|
+|                 |  +--D_azteca
+|              +--|
+|              |  +----D_bifasciata
+|           +--|
+|           |  |        +--D_ananassae
+|           |  |     +--|
+|           |  |     |  +--D_bipectinata
+|           |  |  +--|
+|           |  |  |  +--D_biarmipes
+|           |  +--|
+|           |     |           +--D_asahinai
+|           |     |        +--|
+|           |     |        |  +--D_aurauria
+|           |     |     +--|
+|           |     |     |  +--D_birchii
+|           |     |  +--|
+|           |     |  |  |  +--D_bakoue
+|           |     |  |  +--|
+|           |     |  |     +--D_burlai
+|           |     +--|
+|           |        +--D_bunnanda
+|        +--|
+|        |  |  +--D_albomicans
+|        |  +--|
+|        |     +-----------------D_arawakana
+|     +--|
+|     |  +--D_americana
+|  +--|
+|  |  +--D_arizonae
++--|
+   +--D_bromeliae
+
+Tree in newick format:
+
+(Anopheles_gambiae:1.4388925595,D_acanthoptera:0.0075328258,((((((((D_affinis:0.0745757570,D_athabasca:0.0843836767):0.0025851038,D_azteca:0.0176501666):0.0251827494,D_bifasciata:0.1211770357):0.0535064576,(((D_ananassae:0.0340525243,D_bipectinata:0.0169891650):0.0650737604,D_biarmipes:0.0609839952):0.0269861946,((((D_asahinai:0.0102235153,D_aurauria:0.0081664256):0.0132459693,D_birchii:0.0134717265):0.0037183591,(D_bakoue:0.0113938902,D_burlai:0.0199476367):0.0057731563):0.0057543753,D_bunnanda:0.0280946513):0.0190494062):0.0682591693):0.0375299717,(D_albomicans:0.0892438768,D_arawakana:0.4359831765):0.0491809730):0.0470013534,D_americana:0.0904500135):0.0283988042,D_arizonae:0.0463796866):0.0102624197,D_bromeliae:0.0595414003):0.0507779524);
+
+ALISIM COMMAND
+--------------
+Currently, we only support exporting AliSim commands automatically from the analysis for common models of DNA, Protein, Binary, and Morphological data. To simulate data from other models (mixture, lie-markov, etc), please refer to the User Manual of AliSim. Thanks!
+
+For more information on using AliSim, please visit: www.iqtree.org/doc/AliSim
+
+TIME STAMP
+----------
+
+Date and time: Wed Aug 16 22:00:30 2023
+Total CPU time used: 68.55999 seconds (0h:1m:8s)
+Total wall-clock time used: 68.95195 seconds (0h:1m:8s)
+

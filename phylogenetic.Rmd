@@ -1,65 +1,41 @@
 ---
-title: "Sergestidae shrimp single-gene alignment"
+title: "Widespread introgression across a phylogeny of 155 Drosophila genomes"
 author: "Yilin Bai"
 date: "2023-08-11"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Paper and dataset
+## **Part 1: Introduction and Methodology**
 
-The data set I chose contains Sergestidae shrimp family single- and multi-gene alignments and tree files.
+**Introduction:**
 
+The study addresses the ongoing debate surrounding the extent of gene exchange, known as introgression, in evolutionary processes. Genomic data has revealed the prevalence of introgression across diverse taxa, impacting evolutionary outcomes and adaptive processes. While introgression was initially considered detrimental, it is now recognized as a source of genetic variation driving local adaptation and diversification. The study aims to systematically analyze the frequency of introgression across the phylogenetic tree of the Drosophila genus, leveraging clade-level genomic data and without biased selection of hybridizing taxa.
 
-### **1. Paper Reference:**
+**Method:**
 
-Golightly, C., DeLeo, D. M., Perez, N., Chan, T.-Y., Landeira, J. M., & Bracken‐Grissom, H. D. (2022). Tracing the evolution of bioluminescent light organs across the deep-sea shrimp family Sergestidae using a genomic skimming and phylogenetic approach. Invertebrate Systematics, 36(1), 22-35. https://doi.org/10.1071/IS21013
-
-
-### 2. **Dataset Reference:**
-
-Golightly, Charles; Bracken-Grissom, Heather (2022), Sergestidae shrimp family single- and multi-gene alignments and tree files, Dryad, Dataset, https://doi.org/10.5061/dryad.vdncjsxvk
-
-## Dataset discription
-
-The provided information describes a comprehensive database centered around the investigation of the evolution of bioluminescence in deep-sea shrimp of the Sergestidae family. The database encompasses various aspects of the research, including its focus, methods, and approaches. Here's a more detailed overview of the database itself:
-
-
-**Data Collection and Sample Acquisition:**
-The database provides insights into the collection process of the specimens. The deep-sea shrimp are collected through mid-water trawls in specific geographic regions, notably the Gulf of Mexico and Florida Straits. This data collection process involves capturing live organisms from their natural habitats, ensuring that the samples represent the biological diversity of the family Sergestidae.
-
-**Targeted Genes and Techniques:**
-The genetic investigation involves the amplification and sequencing of specific genes. The targeted genes include H3, NaK, COI, and 16S. These genes are of particular interest due to their relevance to the study's focus on bioluminescence evolution. PCR protocols are employed to amplify these genes for sequencing, and Sanger sequencing techniques are used for their analysis.
-
-**Advanced Techniques - Genome Skimming:**
-The database introduces an advanced technique known as "genome skimming." This approach involves the fragmentation of extracted genomic DNA and the subsequent preparation of libraries using NEB Next Ultra II Library Prep kits. High-throughput sequencing using Illumina HiSeq 3000/4000 technology is employed to capture mitochondrial genomic data from the sampled individuals.
-
-**Bioinformatics and Analysis:**
-The database explains the subsequent bioinformatics steps involved in the analysis of the generated genetic data. Tools such as NOVOplasty are utilized for the assembly of complete mitochondrial genomes. Annotation of these genomes is performed using the MITOS online web tool. Bioinformatics software, notably Geneious Prime, plays a pivotal role in handling, cleaning, and organizing the raw sequence data for further analysis.
-
-**Phylogenetic Analysis and Ancestral State Reconstruction:**
-The core analytical components of the study involve constructing phylogenetic trees using the generated genetic data. The database provides insights into the methodologies employed for alignment creation using MAFFT and tree construction using IQTREE and MrBayes. Additionally, ancestral state reconstruction techniques are used to infer the ancestral states of bioluminescent traits in different lineages.
-
-
-## Visualization of alignment 
+The researchers analyze 155 Drosophila genomes and 4 outgroup genomes to construct a robust phylogeny. They utilize genome-scale sequence data to infer phylogenetic relationships, employing both maximum-likelihood and coalescent-based methods. The inclusion of fossil calibrations ensures accurate estimation of divergence times. The phylogenetic analyses yield high-confidence relationships among most species, with minor discrepancies noted for a few nodes. Additionally, the study employs protein supermatrix analysis and Quartet Sampling to validate the inferred species tree topology and assess discordance patterns that might indicate introgression.
 
 
 
-## Choose a gene
+## **Part 2: Data and Analysis**
+
+**Dataset:**
+
+The dataset encompasses 155 Drosophila genomes and 4 outgroup genomes, representing a broad evolutionary timespan. The researchers annotate and align sequence data for Benchmarking Universal Single-Copy Orthologs (BUSCOs), totaling over 8 million nucleotide positions. These genomes cover over 50 million years of Drosophila evolution and include multiple samples from 9 major radiations within the genus. Fossil calibrations, including those from Drosophilidae fossils and geological information, contribute to the precise estimation of divergence times.
 
 
-```{r}
-library(seqinr)
-fasta_data <- read.fasta("nad1alignment.fasta")
-```
 
+## **Part 3: Results**
 
-## Run IQ-TREE 
-```{r}
+a.  **Tree Topology:**
 
+    Include a figure that displays the different tree topologies. You can use a tree visualization tool or software (e.g., FigTree) to create rooted trees with branch lengths. This will allow readers to visually compare the differences in tree structure.
+    
+    ```{r}
 # Command of run one class model iq-tree
  iqtree_one_model_command <- '% /Users/lindsaybai/Desktop/BIOL8706/iqtree-2.2.2.7.modelmix-MacOSX/bin/iqtree2 -s /Users/lindsaybai/Desktop/BIOL8706/one_gene/nad1alignment.fasta   -B 1000 -T AUTO'
 
@@ -72,115 +48,131 @@ system(iqtree_mixture_command)
 ```
 
 
-## Compare the output
-### Read trees from files
-```{r}
-library(ape)
-tree1 <- read.tree("nad1alignment_onemodle.fasta.treefile")
-tree2 <- read.tree("nad1alignment_mixture.fasta.treefile")
+    ```{r}
+    library(Biostrings)
+    # Replace 'sequences.fasta' with your actual file path
+    sequences <- readDNAStringSet('~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/EOG09150A0E_extraction.fna')
+    sequences
+    ```
 
+    #### Plot trees side by side
+
+    ```{r}
+    library(ape)
+    library(phytools)
+    # Read the tree files
+    mix_tree <- read.tree("~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/one_class_single_gene/one_tree.treefile")
+    one_tree <- read.tree("~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/mix_tree.treefile")
+    ```
+
+    ```{r fig.height=6, fig.width=14}
+    par(mfrow = c(1, 2))  # Set the plotting layout to 1 row and 2 columns
+    plot(one_tree, main = "One class model tree")  # Plot the first tree
+    plot(mix_tree, main = "Mixture class model tree")  # Plot the second tree
+    ```
+
+    #### **Cophylogeny plot**
+
+    ```{r}
+    ## create co-phylogenetic object
+    wasp.cophylo<-cophylo(mix_tree,one_tree)
+    ## plot co-phylogenies
+    plot(wasp.cophylo,link.type="curved",link.lwd=4,
+     link.lty="solid",link.col=make.transparent("red",
+     0.25))
+    par(mar=c(5.1,4.1,4.1,2.1))
+    ```
+
+b.  **Branch Lengths**
+
+    ```{r}
+branch_lengths_equal <- all.equal.phylo(mix_tree, one_tree)
+cat("Branch lengths are equal:", is.null(branch_lengths_equal), "\n")
 ```
 
-### Read the IQ-TREE file
-```{r}
-log_contents_onegene <- readLines("nad1alignment_onegene.fasta.log")
-log_contents_mixture <- readLines("nad1alignment_mixture.fasta.log")
+    ```{r}
+
+library(phangorn)
+# Calculate the Robinson-Foulds distance
+rf_distance <- treedist(one_tree, mix_tree)
+
+# Display the RF distance
+cat("Robinson-Foulds distance:", rf_distance, "\n")
 ```
 
+c.  **Best Model and Parameters:**
 
-### Extract best-fit model(one-class & mixture class)
+    ### Read the IQ-TREE file
 
-```{r}
-best_model_line_1 <- grep("Best-fit model:", log_contents_onegene, value = TRUE)
-best_model_line_2 <- grep("^  Best-fit Q-Mixture model:", log_contents_mixture, value = TRUE)
-tree1_best_model <- sub("Best-fit model: ([^\\s]+)\\s.*", "\\1", best_model_line_1)
-tree2_best_model <- sub("^  Best-fit Q-Mixture model: (.*)", "\\1", best_model_line_2)
+    ```{r}
+one_line <- readLines('~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/one_class_single_gene/EOG09150A0E_extraction.fna.log')
+mix_line <- readLines("~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/EOG09150A0E_extraction.fna.log")
 ```
 
+    ### Extract best-fit model(one-class & mixture class)
 
-### Exact best-fit model parameters(one-class & mixture class)
+    ```{r}
+one_model <- grep("Best-fit model:", one_line, value = TRUE)
+mix_model <- grep("^  Best-fit Q-Mixture model:", mix_line, value = TRUE)
+one_best_model <- sub("Best-fit model: ([^\\s]+)\\s.*", "\\1", one_model)
+mix_best_model <- sub("^  Best-fit Q-Mixture model: (.*)", "\\1", mix_model)
+```
+.
 
-```{r}
+d.  **BIC Score, AIC Score, and Likelihood:**
+
+    ### Exact best-fit model parameters(one-class & mixture class)
+
+    ```{r}
 # Find indices of lines starting with 'Rate parameters'
-rate_params_indices_1 <- grep("^Rate parameters:", log_contents_onegene)
-rate_params_indices_2 <- grep("^Rate parameters:", log_contents_mixture)
+rate_params_indices_1 <- grep("^Rate parameters:", one_line)
+rate_params_indices_2 <- grep("^Rate parameters:", mix_line)
 
 # Extract the last line with rate parameters
-last_rate_params_line_1 <- log_contents_onegene[rate_params_indices_1[length(rate_params_indices_1)]]
-last_rate_params_line_2 <- log_contents_onegene[rate_params_indices_2[length(rate_params_indices_2)]]
+last_rate_params_line_1 <- sub("^Rate parameters: (.*)", "\\1",one_line[rate_params_indices_1[length(rate_params_indices_1)]])
+
+last_rate_params_line_2 <- sub("^Rate parameters: (.*)", "\\1",mix_model[rate_params_indices_2[length(rate_params_indices_2)]])
+
 ```
 
-### Exact best-fit model BIC score(one-class & mixture class)
+    ### Exact best-fit model BIC score(one-class & mixture class)
 
-```{r warning=FALSE}
+    ```{r warning=FALSE}
 # Escape special characters in the best model name
-escaped_best_model <- gsub("([.+])", "\\\\\\1", tree1_best_model)
+escaped_best_model <- gsub("([.+])", "\\\\\\1", one_best_model)
 
 # Search for the line containing the best model
-bic_line <- grep(escaped_best_model, log_contents_onegene, value = TRUE)
+bic_line <- grep(escaped_best_model, one_line, value = TRUE)
 
 # Extract BIC score from the bic_line
 bic_score <- na.omit(as.numeric(sub(".*\\s(\\d+\\.\\d+)\\s*$", "\\1", bic_line)))
 ```
 
 
-### Display extracted information
+e.  **Discussion:**
 
-```{r}
-cat("Best one class model:", tree1_best_model, "\n")
-cat("Best mixture model:", tree2_best_model, "\n")
-
-cat("One class model", last_rate_params_line_1, "\n")
-cat("Mixture model", last_rate_params_line_2, "\n")
-
-cat("One class model BIC score:", bic_score, "\n")
-
-```
-
-
-### Compare tree topologies
-
-```{r}
-library(ape)
-topology_equal <- identical(tree1$edge, tree2$edge)
-cat("Tree topologies are equal:", topology_equal, "\n")
-topology_distance <- dist.topo(tree1, tree2)
-topology_distance
-```
-
-
-### Compare branch lengths
-
-```{r}
-branch_lengths_equal <- all.equal.phylo(tree1, tree2)
-cat("Branch lengths are equal:", is.null(branch_lengths_equal), "\n")
-```
-
+    ### Display extracted information
 
 ```{r}
 
-library(phangorn)
-# Calculate the Robinson-Foulds distance
-rf_distance <- treedist(tree1, tree2)
+# Create a data frame
+output_data <- data.frame(
+  "One class model" = c(one_best_model, last_rate_params_line_1, bic_score),
+  "Mixture class model" = c(mix_best_model, last_rate_params_line_2, ""),
+  row.names = c("Best Model:", "Parameters:", "BIC Score:")
+)
 
-# Display the RF distance
-cat("Robinson-Foulds distance:", rf_distance, "\n")
+# Print the formatted table
+print(output_data)
 ```
 
-### Visual Comparison:
+f.  **Conclusion:**
 
-#### Plot trees side by side 
-```{r}
-par(mfrow = c(1, 2))  # Set the plotting layout to 1 row and 2 columns
-plot(tree1, main = "Tree 1")  # Plot the first tree
-plot(tree2, main = "Tree 2")  # Plot the second tree
-```
+    Summarize the key findings of the analysis, discussing any insights gained from comparing the different aspects of the phylogenetic analysis.
+
+g.  **References:**
 
 
-#### Create the cophylogeny plot
-```{r}
-cophyloplot(tree1, tree2)
-```
+    Suvorov A, Kim BY, Wang J, Armstrong EE, Peede D, D'Agostino ERR, Price DK, Waddell P, Lang M, Courtier-Orgogozo V, David JR, Petrov D, Matute DR, Schrider DR, Comeault AA. Widespread introgression across a phylogeny of 155 Drosophila genomes. Curr Biol. 2022 Jan 10;32(1):111-123.e5. doi: 10.1016/j.cub.2021.10.052. Epub 2021 Nov 16. PMID: 34788634; PMCID: PMC8752469.
 
-
-### Conclusion
+    Suvorov, Anton; Kim, Bernard; Wang, Jeremy; Armstrong, Ellie; Peede, David; D'Agostino, Emmanuel R. R.; et al. (2020). Widespread introgression across a phylogeny of 155 Drosophila genomes. figshare. Dataset. <https://doi.org/10.6084/m9.figshare.13264697.v1>
