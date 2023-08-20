@@ -4,11 +4,21 @@ subtitle: "Widespread introgression across a phylogeny of 155 Drosophila genomes
 
 author: "Yilin Bai"
 date: "2023-08-11"
-output: html_document
+output: 
+  bookdown::html_document2:
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
 ---
 
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE,message = FALSE,warning = FALSE)
+```
+
+```{r}
+library("bookdown")
 ```
 
 ## **Introduction**
@@ -112,7 +122,7 @@ The Robinson-Foulds (RF) distance quantify the dissimilarity or difference betwe
 ```{r}
 one_line <- readLines('~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/one_class_single_gene/one_class_EOG09150A0E.iqtree')
 mix_line <- readLines("~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/mix_class_EOG09150A0E.iqtree")
-    ```
+```
 
     ### Extract best-fit model(one-class & mixture class)
 
@@ -125,7 +135,7 @@ one_class_mod_table <- data.table(Line = one_class_mod_lines)
 setnames(one_class_mod_table, new = "One Class Model")
 one_class_mod_table
 ```
-    
+
 ```{r}
 mix_model <- grep("^Mixture model of substitution:", mix_line, value = TRUE)
 mix_df1 <- data.table(Line = mix_model)
@@ -178,9 +188,29 @@ combined_BIC_df <- cbind(one_BIC_table,mix_BIC_table)
 print(combined_BIC_df)
 ```
 
-## **Conclusion:**
+## **Conclusion**
 
-## **References:**
+### **Best Model Selection**
+
+For the first analysis, the best-fit model according to the Bayesian Information Criterion (BIC) is "MIX{TIM2+FO,JC+FO,HKY+FO}+I+G." - For the second analysis, the best-fit model according to BIC is "TIM2e+I+R4."
+
+### **Interpreting Different Topologies**
+
+The topology of a phylogenetic tree represents the relationships among the sequences being analyzed. Different tree topologies indicate different hypothesized evolutionary relationships between the sequences.
+
+-   D watanabei D punjabiensis was either have paraphyletic relationships to D. kikkawai and D. leontia or have paraphyletic relationships with D. seguy, D. nikananu, D. vulcana, D spaffchauvacae, D bocquet, D burlai, D. jambulina, D. bakoue
+
+-   D wassermani form monophyletic lineage sister to the D. acanthoptera or have paraphyletic relationships where D pachea is sister to the D. acanthoptera
+
+-   D paucipunta form monophyletic lineage sister to the D prolacticillia or have paraphyletic relationships with the D prolacticillia
+
+### **Difference in Tree Length**
+
+The tree length represents the sum of branch lengths in the phylogenetic tree. In the first analysis, the total tree length is approximately 11.4917, and in the second analysis, it's approximately 9.7422. A shorter tree length typically indicates a more compact and potentially more accurate representation of the evolutionary relationships among the sequences.
+
+### **Sensibility of Model Parameters**
+
+## **References**
 
 Suvorov A, Kim BY, Wang J, Armstrong EE, Peede D, D'Agostino ERR, Price DK, Waddell P, Lang M, Courtier-Orgogozo V, David JR, Petrov D, Matute DR, Schrider DR, Comeault AA. Widespread introgression across a phylogeny of 155 Drosophila genomes. Curr Biol. 2022 Jan 10;32(1):111-123.e5. doi: 10.1016/j.cub.2021.10.052. Epub 2021 Nov 16. PMID: 34788634; PMCID: PMC8752469.
 
