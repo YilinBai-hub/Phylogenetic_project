@@ -34,7 +34,7 @@ library(Biostrings)
 sequences <- readDNAStringSet('Data/mixture_class_single_gene/EOG09150A0E.fna.aln')
 ```
 
-## Alignment summaries
+## Alignment summary
 
 ```{r}
 # model
@@ -43,22 +43,55 @@ mix_line <- readLines("Data/mixture_class_single_gene/mix_class_EOG09150A0E.iqtr
 ```
 
 ```{r}
-library(data.table)
-align_line <- grep("SEQUENCE ALIGNMENT", one_line, value = TRUE)
-align_sum <- one_line[(which(one_line == align_line)+2):(which(one_line == align_line)+8)]
-align_sum_table <- data.table(Line = align_sum)
-setnames(align_sum_table, new = "Alignment summaries")
-print(align_sum_table)
+# length and Ntax
+Length_line <- grep("Input data: ", one_line, value = TRUE)
+
+Length_matches <- gregexpr("\\d+", Length_line)
+Length_numbers <- regmatches(Length_line, Length_matches)[[1]]
+
+# Convert the extracted strings to integers
+Ntaxa <- as.integer(Length_numbers[1])
+Length <- as.integer(Length_numbers[2])
 ```
+
+```{r}
+# percent_constant & percent_parsimony_informative
+
+percent_constant_line <- grep("Number of constant sites: ", one_line, value = TRUE)
+percent_constant <- sprintf("%.5s%%", regmatches(percent_constant_line, regexpr("\\d+\\.\\d+%\\s+", percent_constant_line)))
+                            
+percent_constant
+
+parsimony_informative <- as.numeric(sub("Number of parsimony informative sites: ","\\1",grep("Number of parsimony informative sites: ", one_line, value = TRUE))) 
+percent_parsimony_informative <- sprintf("%.2f%%", parsimony_informative / Length * 100)
+percent_parsimony_informative
+
+site_patterns <- as.numeric(sub("Number of distinct site patterns: ","\\1",grep("Number of distinct site patterns: ", one_line, value = TRUE)))
+site_patterns
+```
+
+```{r}
+# Create the data frame
+alignment_data <- data.frame(
+  "Locus_name" = "EOG09150AOE",
+  "Length" = Length,
+  "Ntaxa" = Ntaxa,
+  "Percent_constant" = percent_constant,
+  "Percent_parsimony_informative" = percent_parsimony_informative,
+  "Site_patterns" = site_patterns
+)
+alignment_data
+```
+
 
 ## Command of model
 
 ```{r}
 # Command of run one class model iq-tree
-iqtree_one_model_command <- '% /Users/lindsaybai/Desktop/BIOL8706/iqtree-2.2.2.7.modelmix-MacOSX/bin/iqtree2 -s /Users/lindsaybai/Desktop/BIOL8706/one_gene/nad1alignment.fasta   -B 1000 -T AUTO'
+iqtree_one_model_command <- ' /Users/lindsaybai/Desktop/BIOL8706/iqtree-2.2.2.7.modelmix-MacOSX/bin/iqtree2 -s /Users/lindsaybai/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/EOG09150A0E.fna.aln     -B 1000 -T AUTO'
 
 # Command of run mixture class model iq-tree
-iqtree_mixture_command <- '/Users/lindsaybai/Desktop/BIOL8706/iqtree-2.2.2.7.modelmix-MacOSX/bin/iqtree2  -s /Users/lindsaybai/Desktop/BIOL8706/one_gene_mixture/nad1alignment.fasta   -m "ESTMIXNUM" -mrate E,I,G,I+G,R,I+R -opt_qmix_criteria 1'
+iqtree_mixture_command <- '/Users/lindsaybai/Desktop/BIOL8706/iqtree-2.2.2.7.modelmix-MacOSX/bin/iqtree2  -s /Users/lindsaybai/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/EOG09150A0E.fna.aln     -m "ESTMIXNUM" -mrate E,I,G,I+G,R,I+R -opt_qmix_criteria 1'
 
 system(iqtree_one_model_command)
 system(iqtree_mixture_command)
@@ -170,7 +203,7 @@ for (gene in gene_names) {
 }
 
 # Print the resulting data frame
-print(result_df)
+kable(result_df, "html")
 ```
 
 ## Branch Lengths
@@ -235,7 +268,8 @@ ggplot(data, aes(x = branch_length)) +
   geom_histogram(binwidth = 0.1, fill = "blue", color = "black") +
   facet_grid(model ~ ., scales = "free_y") +  # Facet by 'model', free y-axis scales
   labs(x = "Branch Length", y = "Frequency") +
-  theme_minimal()
+  theme_minimal()+
+  scale_x_log10()
 ```
 
 ### ECDF plot
@@ -247,7 +281,8 @@ ggplot(data, aes(x = branch_length, color = model)) +
   labs(x = "Branch Length", y = "ECDF") +
   scale_color_manual(values = c("One class" = "blue", "Mixture" = "red")) +
   theme_minimal() +
-  theme(legend.position = "top")
+  theme(legend.position = "top")+
+  scale_x_log10()
 ```
 
 ## Models
@@ -359,11 +394,9 @@ model_data <- data.frame(
   Best = rep(best_model,2),
   gene_name = rep(gene_names,2)
 )
-
-# Print the table
-print(model_data)
-
 ```
 
-
-
+```{r}
+library("knitr")
+kable(model_data, "html")
+```

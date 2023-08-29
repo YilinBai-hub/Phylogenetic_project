@@ -1,0 +1,92 @@
+---
+title: "single_format"
+author: "Yilin Bai"
+date: "2023-08-29"
+output: 
+  bookdown::html_document2:
+    code_folding: show
+    number_sections: no
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reference
+
+**Dataset:** Suvorov, Anton; Kim, Bernard; Wang, Jeremy; Armstrong, Ellie; Peede, David; D'Agostino, Emmanuel R. R.; et al. (2020). Widespread introgression across a phylogeny of 155 Drosophila genomes. figshare. Dataset. <https://doi.org/10.6084/m9.figshare.13264697.v1>
+
+**Paper:** Suvorov A, Kim BY, Wang J, Armstrong EE, Peede D, D'Agostino ERR, Price DK, Waddell P, Lang M, Courtier-Orgogozo V, David JR, Petrov D, Matute DR, Schrider DR, Comeault AA. Widespread introgression across a phylogeny of 155 Drosophila genomes. Curr Biol. 2022 Jan 10;32(1):111-123.e5. doi: 10.1016/j.cub.2021.10.052. Epub 2021 Nov 16. PMID: 34788634; PMCID: PMC8752469.
+
+## Target alignment
+
+**Name:** EOG09150AOE
+
+**Outgroup:** Anopheles
+
+**Type:** Aligned DNA BUSCO loci
+
+```{r}
+library(Biostrings)
+sequences <- readDNAStringSet('Data/mixture_class_single_gene/EOG09150A0E.fna.aln')
+candidate <- 30
+id <- as.character(candidate)
+# "geneset_loc" is the folder where you save a set of multi-alignments
+geneset_loc <- "~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/drosophila_introgression_data/busco_msa_anopheles"
+gene_sets <- system2(command = "ls", args = geneset_loc, stdout = TRUE)
+cat("Current gene file location:", geneset_loc, "\n")
+
+```
+```
+
+## Alignment summary
+
+```{r}
+# model
+one_line <- readLines(paste(prefix_single, ".iqtree", sep = ""))
+mix_line <- readLines(paste(prefix_mix, ".iqtree", sep = ""))
+```
+
+```{r}
+# length and Ntax
+Length_line <- grep("Input data: ", one_line, value = TRUE)
+
+Length_matches <- gregexpr("\\d+", Length_line)
+Length_numbers <- regmatches(Length_line, Length_matches)[[1]]
+
+# Convert the extracted strings to integers
+Ntaxa <- as.integer(Length_numbers[1])
+Length <- as.integer(Length_numbers[2])
+```
+
+```{r}
+# percent_constant & percent_parsimony_informative
+
+percent_constant_line <- grep("Number of constant sites: ", one_line, value = TRUE)
+percent_constant <- sprintf("%.5s%%", regmatches(percent_constant_line, regexpr("\\d+\\.\\d+%\\s+", percent_constant_line)))
+                            
+percent_constant
+
+parsimony_informative <- as.numeric(sub("Number of parsimony informative sites: ","\\1",grep("Number of parsimony informative sites: ", one_line, value = TRUE))) 
+percent_parsimony_informative <- sprintf("%.2f%%", parsimony_informative / Length * 100)
+percent_parsimony_informative
+
+site_patterns <- as.numeric(sub("Number of distinct site patterns: ","\\1",grep("Number of distinct site patterns: ", one_line, value = TRUE)))
+site_patterns
+```
+
+```{r}
+# Create the data frame
+alignment_data <- data.frame(
+  "Locus_name" = "EOG09150AOE",
+  "Length" = Length,
+  "Ntaxa" = Ntaxa,
+  "Percent_constant" = percent_constant,
+  "Percent_parsimony_informative" = percent_parsimony_informative,
+  "Site_patterns" = site_patterns
+)
+alignment_data
+```

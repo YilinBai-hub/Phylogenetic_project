@@ -57,7 +57,7 @@ Phylogenetic analyses using both **one-class model ML tree** and **mixture-class
 ```{r}
 library(Biostrings)
 # Replace 'sequences.fasta' with your actual file path
-sequences <- readDNAStringSet('~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/EOG09150A0E.fna.aln')
+sequences <- readDNAStringSet('Data/mixture_class_single_gene/EOG09150A0E.fna.aln')
 sequences
 ```
 
@@ -65,8 +65,8 @@ sequences
 library(ape)
 library(phytools)
 # Read the tree files
-mix_tree <- read.tree("~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/mix_class_EOG09150A0E.treefile")
-one_tree <- read.tree("~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/one_class_single_gene/one_class_EOG09150A0E.treefile")
+mix_tree <- read.tree("Data/mixture_class_single_gene/mix_class_EOG09150A0E.treefile")
+one_tree <- read.tree("\Data/one_class_single_gene/one_class_EOG09150A0E.treefile")
 ```
 
 ```{r fig.height=20, fig.width= 12}
@@ -120,8 +120,8 @@ The Robinson-Foulds (RF) distance quantify the dissimilarity or difference betwe
     ### Read the IQ-TREE file
 
 ```{r}
-one_line <- readLines('~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/one_class_single_gene/one_class_EOG09150A0E.iqtree')
-mix_line <- readLines("~/Desktop/BIOL8706/phylogenetic_project/Phylogenetic_project/Data/mixture_class_single_gene/mix_class_EOG09150A0E.iqtree")
+one_line <- readLines('Data/one_class_single_gene/one_class_EOG09150A0E.iqtree')
+mix_line <- readLines("Data/mixture_class_single_gene/mix_class_EOG09150A0E.iqtree")
 ```
 
     ### Extract best-fit model(one-class & mixture class)
